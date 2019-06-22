@@ -1,6 +1,6 @@
 use super::*;
-use crate::models::XYHW;
 use crate::models::XYHWBuilder;
+use crate::models::XYHW;
 
 pub fn process(manager: &mut Manager, handle: &WindowHandle, offset_x: i32, offset_y: i32) -> bool {
     for w in &mut manager.windows {
@@ -16,7 +16,7 @@ pub fn process(manager: &mut Manager, handle: &WindowHandle, offset_x: i32, offs
 fn process_window(window: &mut Window, offset_x: i32, offset_y: i32) {
     window.set_floating(true);
     if window.floating.is_none() {
-        let mut floating:XYHW = XYHWBuilder::default().into();
+        let mut floating: XYHW = XYHWBuilder::default().into();
         floating.set_w(window.width());
         floating.set_h(window.height());
         window.floating = Some(floating);

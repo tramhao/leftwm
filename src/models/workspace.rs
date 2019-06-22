@@ -134,12 +134,18 @@ impl Workspace {
     //}
 
     pub fn update_windows(&self, windows: &mut Vec<&mut Window>) {
-        let mut mine: Vec<&mut &mut Window> = windows
+        //mark all windows for this workspace as visable
+        let mut all_mine: Vec<&mut &mut Window> = windows
+            .iter_mut()
+            .filter(|w| self.is_displaying(w))
+            .collect();
+        all_mine.iter_mut().for_each(|w| w.set_visable(true));
+        //updates sizing/location for managed windows in this workspace
+        let mut managed: Vec<&mut &mut Window> = windows
             .iter_mut()
             .filter(|w| self.is_displaying(w) && !w.floating())
             .collect();
-        mine.iter_mut().for_each(|w| w.set_visable(true));
-        self.layouts[0].update_windows(self, &mut mine);
+        self.layouts[0].update_windows(self, &mut managed);
     }
 
     pub fn x(&self) -> i32 {

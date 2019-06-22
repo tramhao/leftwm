@@ -65,7 +65,12 @@ impl Window {
         self.visable = value;
     }
     pub fn visable(&self) -> bool {
-        self.visable || self.floating()
+        self.visable 
+            || self.type_ == WindowType::Dock
+            || self.type_ == WindowType::Menu
+            || self.type_ == WindowType::Splash
+            || self.type_ == WindowType::Dialog
+            || self.type_ == WindowType::Toolbar
     }
 
     pub fn set_floating(&mut self, value: bool) {
