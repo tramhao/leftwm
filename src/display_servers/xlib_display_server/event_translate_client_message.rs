@@ -6,14 +6,14 @@ use crate::Command;
 use x11_dl::xlib;
 
 pub fn from_event(xw: &XWrap, event: xlib::XClientMessageEvent) -> Option<DisplayEvent> {
-    let atom_name = xw.atoms.get_name(event.message_type);
-    println!("ClientMessage: {} {:?}", event.window, atom_name);
+    //let atom_name = xw.atoms.get_name(event.message_type);
+    //println!("ClientMessage: {} {:?}", event.window, atom_name);
 
     if event.message_type == xw.atoms.NetCurrentDesktop {
-        println!("client request to change to desktop!");
-        println!("EVENT: {:?}", event);
-        let data = event.data.get_long(1);
-        println!("DATA: {:?}", data);
+        //println!("client request to change to desktop!");
+        //println!("EVENT: {:?}", event);
+        //let data = event.data.get_long(1);
+        //println!("DATA: {:?}", data);
         return goto_tag_by_index(xw, event.data.get_long(0));
     }
 

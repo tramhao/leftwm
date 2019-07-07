@@ -91,8 +91,8 @@ fn load_old_windows_state(manager: &mut Manager) {
                 .iter()
                 .find(|w| w.handle == window.handle)
             {
-                window.floating = old.floating;
                 window.set_floating(old.floating());
+                window.set_floating_offsets(old.get_floating_offsets());
                 window.normal = old.normal;
                 window.tags = old.tags.clone();
             }

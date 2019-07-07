@@ -1,6 +1,7 @@
 use super::layouts::*;
 use crate::models::Screen;
 use crate::models::Window;
+use crate::models::WindowType;
 use crate::models::XYHWBuilder;
 use crate::models::XYHW;
 use std::collections::VecDeque;
@@ -124,14 +125,16 @@ impl Workspace {
     }
 
     /*
-     * given a list of windows, returns a sublist of the windows that this workspace is displaying
+     * returns true if the workspace is to update the locations info of this window
      */
-    //pub fn displayed_windows<'a>(&self, windows: &mut Vec<&'a mut Window>) -> &mut Vec<&'a mut Window> {
-    //    windows
-    //        .into_iter()
-    //        .filter(|w| self.is_displaying(w) && !w.floating())
-    //        .collect::<&mut Vec<&mut Window>>()
-    //}
+    pub fn is_managed(&self, window: &Window) -> bool {
+        let m = self.is_displaying(window) && window.type_ != WindowType::Dock;
+        if m && window.floating() {
+            println!("{:?}", window.get_floating_offsets() );
+            println!("{:?}", window.calculated_xyhw() );
+        }
+        m
+    }
 
     pub fn update_windows(&self, windows: &mut Vec<&mut Window>) {
         //mark all windows for this workspace as visable
@@ -140,11 +143,8 @@ impl Workspace {
             .filter(|w| self.is_displaying(w))
             .collect();
         all_mine.iter_mut().for_each(|w| w.set_visable(true));
-        //updates sizing/location for managed windows in this workspace
-        let mut managed: Vec<&mut &mut Window> = windows
-            .iter_mut()
-            .filter(|w| self.is_displaying(w) && !w.floating())
-            .collect();
+        let mut managed: Vec<&mut &mut Window> =
+            windows.iter_mut().filter(|w| self.is_managed(w)).collect();
         self.layouts[0].update_windows(self, &mut managed);
     }
 
