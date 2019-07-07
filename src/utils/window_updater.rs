@@ -21,9 +21,6 @@ pub fn update_windows(manager: &mut Manager) {
             .for_each(|w| {
                 w.set_floating(false);
                 w.normal = ws.xyhw;
-                //w.set_floating(true);
-                //w.set_floating_exact( ws.xyhw );
             });
-        //.for_each(|w| w.floating = Some(ws.xyhw));
     });
 }

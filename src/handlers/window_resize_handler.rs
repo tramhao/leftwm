@@ -17,48 +17,12 @@ fn process_window(window: &mut Window, offset_w: i32, offset_h: i32) {
     let mut offset = window
         .get_floating_offsets()
         .unwrap_or(XYHWBuilder::default().into());
+    let start = window.start_loc.unwrap_or(XYHWBuilder::default().into());
     offset.clear_minmax();
-    offset.set_w(offset_w);
-    offset.set_h(offset_h);
+    offset.set_w(start.w() + offset_w);
+    offset.set_h(start.h() + offset_h);
     window.set_floating_offsets(Some(offset));
 }
-
-
-/*
- 
-fn process_window(window: &mut Window, offset_x: i32, offset_y: i32) {
-    window.set_floating(true);
-    if window.floating.is_none() {
-        let mut floating = XYHW::default();
-        floating.w = window.width();
-        floating.h = window.height();
-        window.floating = Some(floating);
-    }
-    if window.start_loc.is_none() {
-        let floating = window.floating.unwrap();
-        window.start_loc = Some((floating.w, floating.h));
-    }
-
-    //they must have a value, it is safe to unwrap
-    let floating = &mut window.floating.unwrap();
-    let starting = &window.start_loc.unwrap();
-
-    floating.w = starting.0 + offset_x;
-    floating.h = starting.1 + offset_y;
-
-    //set min sizes for the floating window
-    if floating.w < 100 {
-        floating.w = 100
-    }
-    if floating.h < 100 {
-        floating.h = 100
-    }
-
-    window.floating = Some(*floating);
-}
- 
- */
-
 
 //if the windows is really close to a workspace, snap to it
 fn snap_to_workspaces(window: &mut Window, workspaces: &[Workspace]) -> bool {

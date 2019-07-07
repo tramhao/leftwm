@@ -28,7 +28,7 @@ pub struct Window {
     pub margin: i32,
     states: Vec<WindowState>,
     pub normal: XYHW,
-    pub start_loc: Option<(i32, i32)>,
+    pub start_loc: Option<XYHW>,
 }
 
 impl Window {
