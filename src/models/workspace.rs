@@ -128,12 +128,7 @@ impl Workspace {
      * returns true if the workspace is to update the locations info of this window
      */
     pub fn is_managed(&self, window: &Window) -> bool {
-        let m = self.is_displaying(window) && window.type_ != WindowType::Dock;
-        if m && window.floating() {
-            println!("{:?}", window.get_floating_offsets() );
-            println!("{:?}", window.calculated_xyhw() );
-        }
-        m
+        self.is_displaying(window) && window.type_ != WindowType::Dock
     }
 
     pub fn update_windows(&self, windows: &mut Vec<&mut Window>) {

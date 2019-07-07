@@ -21,6 +21,7 @@ pub struct Window {
     is_floating: bool,
     floating: Option<XYHW>,
     pub never_focus: bool,
+    pub debugging: bool,
     pub name: Option<String>,
     pub type_: WindowType,
     pub tags: Vec<String>,
@@ -38,6 +39,7 @@ impl Window {
             transient: None,
             visable: false,
             is_floating: false,
+            debugging: false,
             never_focus: false,
             name,
             type_: WindowType::Normal,
@@ -72,13 +74,12 @@ impl Window {
             || self.type_ == WindowType::Toolbar
     }
 
-
     pub fn set_floating(&mut self, value: bool) {
         if !self.is_floating && value && self.floating.is_none() {
             //NOTE: We float relative to the normal position.
             let mut new_value = XYHW::default();
             new_value.clear_minmax();
-            self.floating = Some( new_value );
+            self.floating = Some(new_value);
         }
         self.is_floating = value;
     }
@@ -130,26 +131,34 @@ impl Window {
         self.states = states;
     }
     pub fn width(&self) -> i32 {
+        let mut value = 100;
         if self.is_fullscreen() {
-            return self.normal.w();
-        }
-        if self.floating() && self.floating.is_some() {
+            value = self.normal.w();
+        } else if self.floating() && self.floating.is_some() {
             let relative = self.normal + self.floating.unwrap();
-            relative.w() - (self.margin * 2) - (self.border * 2)
+            value = relative.w() - (self.margin * 2) - (self.border * 2);
         } else {
-            self.normal.w() - (self.margin * 2) - (self.border * 2)
+            value = self.normal.w() - (self.margin * 2) - (self.border * 2);
         }
+        if value < 100 {
+            value = 100
+        }
+        value
     }
     pub fn height(&self) -> i32 {
+        let mut value = 100;
         if self.is_fullscreen() {
-            return self.normal.h();
-        }
-        if self.floating() && self.floating.is_some() {
+            value = self.normal.h();
+        } else if self.floating() && self.floating.is_some() {
             let relative = self.normal + self.floating.unwrap();
-            relative.h() - (self.margin * 2) - (self.border * 2)
+            value = relative.h() - (self.margin * 2) - (self.border * 2);
         } else {
-            self.normal.h() - (self.margin * 2) - (self.border * 2)
+            value = self.normal.h() - (self.margin * 2) - (self.border * 2);
         }
+        if value < 100 {
+            value = 100
+        }
+        value
     }
 
     pub fn set_x(&mut self, x: i32) {

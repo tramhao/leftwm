@@ -23,14 +23,14 @@ fn process_window(window: &mut Window, offset_w: i32, offset_h: i32) {
     offset.set_h(start.h() + offset_h);
     window.set_floating_offsets(Some(offset));
 }
-
+//
 //if the windows is really close to a workspace, snap to it
 fn snap_to_workspaces(window: &mut Window, workspaces: &[Workspace]) -> bool {
-    for workspace in workspaces {
-        if snap_to_workspace(window, &workspace) {
-            return true;
-        }
-    }
+    //for workspace in workspaces {
+    //    if snap_to_workspace(window, &workspace) {
+    //        return true;
+    //    }
+    //}
     false
 }
 

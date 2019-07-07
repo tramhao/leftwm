@@ -22,5 +22,11 @@ pub fn update_windows(manager: &mut Manager) {
                 w.set_floating(false);
                 w.normal = ws.xyhw;
             });
+
+        
+        windows.iter().filter(|x| x.debugging ).for_each(|w|{
+            println!("{:?}", w);
+        });
+
     });
 }
