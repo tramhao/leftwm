@@ -77,9 +77,10 @@ impl Window {
     pub fn set_floating(&mut self, value: bool) {
         if !self.is_floating && value && self.floating.is_none() {
             //NOTE: We float relative to the normal position.
-            let mut new_value = XYHW::default();
-            new_value.clear_minmax();
-            self.floating = Some(new_value);
+            self.reset_float_offset();
+            //let mut new_value = XYHW::default();
+            //new_value.clear_minmax();
+            //self.floating = Some(new_value);
         }
         self.is_floating = value;
     }
@@ -90,6 +91,12 @@ impl Window {
 
     pub fn get_floating_offsets(&self) -> Option<XYHW> {
         self.floating
+    }
+
+    pub fn reset_float_offset(&mut self) {
+        let mut new_value = XYHW::default();
+        new_value.clear_minmax();
+        self.floating = Some(new_value);
     }
 
     pub fn set_floating_offsets(&mut self, value: Option<XYHW>) {

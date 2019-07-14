@@ -132,7 +132,7 @@ impl Workspace {
     }
 
     pub fn update_windows(&self, windows: &mut Vec<&mut Window>) {
-        //mark all windows for this workspace as visable
+        //mark all windows for this workspace as visible
         let mut all_mine: Vec<&mut &mut Window> = windows
             .iter_mut()
             .filter(|w| self.is_displaying(w))

@@ -34,43 +34,30 @@ fn snap_to_workspaces(window: &mut Window, workspaces: &[Workspace]) -> bool {
 
 fn snap_to_workspace(window: &mut Window, workspace: &Workspace) -> bool {
     if should_snap(window, workspace) {
-        //window.debugging = true;
-        //window.set_floating(false);
+        window.debugging = true;
+        window.set_floating(false);
 
-        ////we are reparenting
-        //if window.tags != workspace.tags {
-        //    window.debugging = true;
-        //    window.tags = workspace.tags.clone();
-        //    let mut offset = window.get_floating_offsets().unwrap_or(XYHWBuilder::default().into());
-        //    let mut start_loc = window.start_loc.unwrap_or(XYHWBuilder::default().into());
-        //    let x = offset.x() + window.normal.x();
-        //    let y = offset.y() + window.normal.y();
-        //    //let w = offset.w() + window.normal.w();
-        //    //let h = offset.h() + window.normal.h();
-        //    offset.set_x( x - workspace.xyhw.x() );
-        //    offset.set_y( y - workspace.xyhw.y() );
-        //    //offset.set_h( h - workspace.xyhw.h() );
-        //    //offset.set_w( w - workspace.xyhw.w() );
-        //    window.set_floating_offsets( Some(offset) );
+        //we are reparenting
+        if window.tags != workspace.tags {
+            window.debugging = true;
+            window.tags = workspace.tags.clone();
+            let mut offset = window
+                .get_floating_offsets()
+                .unwrap_or(XYHWBuilder::default().into());
+            let mut start_loc = window.start_loc.unwrap_or(XYHWBuilder::default().into());
+            let x = offset.x() + window.normal.x();
+            let y = offset.y() + window.normal.y();
+            offset.set_x(x - workspace.xyhw.x());
+            offset.set_y(y - workspace.xyhw.y());
+            window.set_floating_offsets(Some(offset));
 
-        //    let x = start_loc.x() + window.normal.x();
-        //    let y = start_loc.y() + window.normal.y();
-        //    let w = start_loc.w() + window.normal.w();
-        //    let h = start_loc.h() + window.normal.h();
-        //    start_loc.set_x( x - workspace.xyhw.x() );
-        //    start_loc.set_y( y - workspace.xyhw.y() );
-        //    //start_loc.set_h( h - workspace.xyhw.h() );
-        //    //start_loc.set_w( w - workspace.xyhw.w() );
-        //    window.start_loc = Some(start_loc);
-
-        //}
-
-        //println!("{:?}", floating_loc);
-        //println!("{:?}", window);
-
-        //we float relative to the parent workspace. It has just changed. We need to recalculate
-        //its relative location to the window doesn't jump around
-        //return true;
+            let x = start_loc.x() + window.normal.x();
+            let y = start_loc.y() + window.normal.y();
+            start_loc.set_x(x - workspace.xyhw.x());
+            start_loc.set_y(y - workspace.xyhw.y());
+            window.start_loc = Some(start_loc);
+        }
+        return true;
     }
     false
 }
