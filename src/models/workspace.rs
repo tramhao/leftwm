@@ -138,9 +138,17 @@ impl Workspace {
             .filter(|w| self.is_displaying(w))
             .collect();
         all_mine.iter_mut().for_each(|w| w.set_visable(true));
-        let mut managed: Vec<&mut &mut Window> =
-            windows.iter_mut().filter(|w| self.is_managed(w)).collect();
-        self.layouts[0].update_windows(self, &mut managed);
+        //update the location of all non-floating windows
+        let mut managed_nonfloat: Vec<&mut &mut Window> = windows
+            .iter_mut()
+            .filter(|w| self.is_managed(w) && !w.floating())
+            .collect();
+        self.layouts[0].update_windows(self, &mut managed_nonfloat);
+        //update the location of all floating windows
+        windows
+            .iter_mut()
+            .filter(|w| self.is_managed(w) && w.floating())
+            .for_each(|w| w.normal = self.xyhw);
     }
 
     pub fn x(&self) -> i32 {
