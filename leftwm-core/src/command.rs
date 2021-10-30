@@ -13,8 +13,6 @@ pub enum Command {
     ToggleSticky,
     GotoTag(usize),
     FloatingToTile,
-    TileToFloating,
-    ToggleFloating,
     MoveWindowUp,
     MoveWindowDown,
     MoveWindowTop,

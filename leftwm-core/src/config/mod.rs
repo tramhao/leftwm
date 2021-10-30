@@ -37,9 +37,6 @@ pub trait Config {
     where
         Self: Sized;
 
-    fn always_float(&self) -> Option<bool>;
-    fn default_width(&self) -> Option<i32>;
-    fn default_height(&self) -> Option<i32>;
     fn border_width(&self) -> i32;
     fn margin(&self) -> Margins;
     fn workspace_margin(&self) -> Option<Margins>;
@@ -113,15 +110,6 @@ impl Config for TestConfig {
         Self: Sized,
     {
         unimplemented!()
-    }
-    fn always_float(&self) -> Option<bool> {
-        Some(false)
-    }
-    fn default_width(&self) -> Option<i32> {
-        Some(1000)
-    }
-    fn default_height(&self) -> Option<i32> {
-        Some(800)
     }
     fn border_width(&self) -> i32 {
         0
